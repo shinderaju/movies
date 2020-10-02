@@ -1,0 +1,88 @@
+<div class="row">
+  <h1>{{title}}</h1>
+</div>
+
+  <div class="row">
+    <div class="col-sm-6" *ngIf="allMovies && allMovies.length > 0">
+      <form class="form-inline">
+        <div class="form-group">
+          <div class="input-group">
+            <div class="input-group-addon"><i class="fa fa-search"></i></div>
+            <input #ordersFilter type="text" class="form-control" placeholder="Filter by Movie name,Director name" (keyup)="searchMovies(ordersFilter.value)">
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="col-sm-6">
+      <button type="button" class="btn btn-success mr-1" (click)="addNewMovie()" *ngIf="loggedIn">Add New Movie</button>
+    </div>
+  </div>
+  <div class="row" *ngIf="allMovies && allMovies.length > 0; else noMovies">
+    <div class="col-sm-12">
+      <table class="table">
+        <thead>
+        <tr>
+          <th>
+            <a [href]="" (click)="sortMovies('name')">
+              Name
+              <span *ngIf="sortType == 'name' && !sortReverse" class="fa fa-caret-down"></span>
+              <span *ngIf="sortType == 'name' && sortReverse" class="fa fa-caret-up"></span>
+            </a>
+          </th>
+          <th>
+            <a [href]="" (click)="sortMovies('popularity')">
+              Popularity
+              <span *ngIf="sortType == 'popularity' && !sortReverse" class="fa fa-caret-down"></span>
+              <span *ngIf="sortType == 'popularity' && sortReverse" class="fa fa-caret-up"></span>
+            </a>
+          </th>
+          <th>
+            <a [href]="" (click)="sortMovies('director')">
+              Director
+              <span *ngIf="sortType == 'director' && !sortReverse" class="fa fa-caret-down"></span>
+              <span *ngIf="sortType == 'director' && sortReverse" class="fa fa-caret-up"></span>
+            </a>
+          </th>
+          <th>
+            <ng-multiselect-dropdown
+              [placeholder]="'Geners'"
+              [data]="generList"
+              [(ngModel)]="selectedItems"
+              [settings]="dropdownSettings"
+              (onSelect)="onItemSelect($event)"
+              (onDeSelect)="onItemSelect($event)"
+            >
+            </ng-multiselect-dropdown>
+          </th>
+          <th>
+            <a [href]="" (click)="sortMovies('imdb_score')">
+              Imdb Score
+              <span *ngIf="sortType == 'imdb_score' && !sortReverse" class="fa fa-caret-down"></span>
+              <span *ngIf="sortType == 'imdb_score' && sortReverse" class="fa fa-caret-up"></span>
+            </a>
+          </th>
+          <th *ngIf="loggedIn">
+            <span>Actions</span>
+          </th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let movie of filteredMovies">
+          <td>{{movie.name}}</td>
+          <td>{{movie.popularity}}</td>
+          <td>{{movie.director}}</td>
+          <td>{{movie.genre}}</td>
+          <td>{{movie.imdb_score}}</td>
+          <td>
+            <button type="button" class="btn btn-success mr-1" (click)="updateMovie(movie._id)" *ngIf="loggedIn">Update</button>
+            <button type="button" class="btn btn-danger" style="margin-left: 10px;" (click)="deleteMovieById(movie._id)" *ngIf="loggedIn">Delete</button>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+<ng-template #noMovies>
+  There are no movies to show.
+</ng-template>

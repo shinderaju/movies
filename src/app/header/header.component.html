@@ -1,0 +1,27 @@
+<nav class="navbar navbar-light">
+  <div class="container">
+    <a class="navbar-brand" routerLink="/">Movie List</a>
+
+    <ul class="nav navbar-nav pull-xs-right">
+
+      <li class="nav-item"  routerLink="/sign-in" *ngIf="!loggedIn">
+        <a class="nav-link">
+          Sign in
+        </a>
+      </li>
+
+      <li class="nav-item"  routerLink="/sign-up" *ngIf="!loggedIn">
+        <a class="nav-link">
+          Sign up
+        </a>
+      </li>
+      <li class="nav-item" (click)="logout()" *ngIf="loggedIn">
+        <a class="nav-link">
+          Logout
+        </a>
+      </li>
+
+    </ul>
+
+  </div>
+</nav>
